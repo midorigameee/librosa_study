@@ -1,2 +1,5 @@
+# ignore all wav files.
 *.wav
+
+# ignore all image files.
 *.jpg
