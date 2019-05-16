@@ -18,7 +18,7 @@ import numpy as np
 
 
 # setting veriable
-FILENAME = "data_1s.wav"
+FILENAME = "syasyo.wav"
 SAMPLING_RATE = 44100
 FIGSIZE = (12, 10)
 
@@ -35,7 +35,7 @@ if __name__ == "__main__":
     plt.figure(figsize=(FIGSIZE))
 
     ### パワースペクトログラムの表示
-    plt.subplot(3,1,1)
+    plt.subplot(3, 1, 1)
     librosa.display.specshow(D,
                             y_axis="hz",
                             x_axis="time",
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     plt.title("power spectrogram")
 
     ### 対数パワースペクトログラムの表示
-    plt.subplot(3,1,2)        
+    plt.subplot(3, 1, 2)
     librosa.display.specshow(D,
                             y_axis="log",
                             x_axis="time",
@@ -57,17 +57,17 @@ if __name__ == "__main__":
     plt.title("log-power spectrogram")
 
     ### FBANKのスペクトログラムの表示
-    plt.subplot(3,1,3)
+    plt.subplot(3, 1, 3)
     mel = librosa.feature.melspectrogram(y=data,
                                         sr=sr,
                                         n_fft=1024,
                                         hop_length=512,
-                                        power=1,                                        
+                                        power=1,
                                         n_mels=40)
-    
+
     # 対数を取る
     log_mel=librosa.amplitude_to_db(mel, ref=np.max)
-    
+
     # 対数パワースペクトルを表示
     librosa.display.specshow(log_mel,
                             y_axis="mel",
@@ -79,4 +79,8 @@ if __name__ == "__main__":
     plt.title("mel spectrogram")
 
     plt.tight_layout()
+
+    savepath = FILENAME[:-4] + ".jpg"
+    plt.savefig(savepath)
+
     plt.show()

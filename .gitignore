@@ -3,3 +3,6 @@
 
 # ignore all image files.
 *.jpg
+
+# ignore all directories
+/result
