@@ -16,11 +16,12 @@ import librosa.display
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+import sys
 
 
 # setting veriable
-TARGET_TYPE = "directory" # directory or file
-TARGET_PATH = "recorded_data"
+# TARGET_TYPE = "directory" # directory or file
+# TARGET_PATH = "recorded_data"
 SAMPLING_RATE = 44100
 FIGSIZE = (12, 10)
 
@@ -92,22 +93,41 @@ def create_spectrogram(filename, sampling_rate):
 
     plt.savefig(savepath)
 
-    # plt.show()
 
-
-def directory_to_spectrogram(taeget_path):
-    target_list = os.listdir(taeget_path)
+def directory_to_spectrogram(target_path, sampling_rate):
+    target_list = os.listdir(target_path)
 
     cd = os.getcwd()
-    os.chdir(taeget_path)
+    os.chdir(target_path)
 
     for target_name in target_list:
-        create_spectrogram(target_name, SAMPLING_RATE)
+        print(target_name)
+        create_spectrogram(target_name, sampling_rate)
+
+
+def check_audio(filename):
+    extension = filename[:-3]
+    
 
 
 def main():
-    if TARGET_TYPE == "directory":
-        directory_to_spectrogram(TARGET_PATH)
+    args = sys.argv
+
+    print(args[1])
+    print(args[2])
+
+    target_type = args[1]
+    target_path = args[2]
+
+    if len(args) >= 3:
+        if target_type == "d":
+            directory_to_spectrogram(target_path, SAMPLING_RATE)
+        elif target_type == "f":
+            create_spectrogram(target_path, SAMPLING_RATE)
+        else:
+            print("Arguments are not suitable.")
+    else:
+        print("Arguments are too short.")
 
 
 if __name__ == "__main__":
