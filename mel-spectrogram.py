@@ -69,7 +69,7 @@ def create_spectrogram(filename, sampling_rate):
                                         n_mels=40)
 
     # 対数を取る
-    log_mel=librosa.amplitude_to_db(mel, ref=np.max)
+    log_mel = librosa.amplitude_to_db(mel, ref=np.max)
 
     # 対数パワースペクトルを表示
     librosa.display.specshow(log_mel,
@@ -81,8 +81,10 @@ def create_spectrogram(filename, sampling_rate):
     plt.colorbar(format="%+2.0f db")
     plt.title("mel spectrogram")
 
+    # レイアウトを整える
     plt.tight_layout()
 
+    # ファイル名は元々”.wav”が入っているのでそれを取り除く
     savename = filename[:-4] + ".jpg"
     savedir = "spectrogram"
 
@@ -95,26 +97,37 @@ def create_spectrogram(filename, sampling_rate):
 
 
 def directory_to_spectrogram(target_path, sampling_rate):
+    # 指定ディレクトリ内の全てのファイルをリスト化
     target_list = os.listdir(target_path)
 
-    cd = os.getcwd()
+    # ディレクトリ移動
     os.chdir(target_path)
 
+    # 指定ディレクトリ内の全てのファイルを見る
     for target_name in target_list:
-        print(target_name)
-        create_spectrogram(target_name, sampling_rate)
+        # wav以外のファイルは無視してスペクトログラムスペクトログラム作成
+        if check_audio(target_name):
+            create_spectrogram(target_name, sampling_rate)
+        else:
+            pass
 
 
 def check_audio(filename):
-    extension = filename[:-3]
-    
+    # ファイル名の後ろから3文字を参照
+    extension = filename[-3:]
+
+    # 後ろから3文字は拡張子なのでwavかどうか判断できる
+    if extension == "wav":
+        return True
+    else:
+        return False
 
 
 def main():
     args = sys.argv
 
-    print(args[1])
-    print(args[2])
+    print("target_type : {}" .format(args[1]))
+    print("target_path : {}" .format(args[2]))
 
     target_type = args[1]
     target_path = args[2]
@@ -132,8 +145,6 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
 
 
 """
